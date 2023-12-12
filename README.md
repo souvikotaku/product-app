@@ -1,2 +1,2 @@
 # product-app
-practice app for interview task purpose
+practice app made in react native for interview task purpose
