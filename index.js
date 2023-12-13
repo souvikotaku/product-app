@@ -1,5 +1,6 @@
 import { registerRootComponent } from "expo";
 import { Provider } from "react-redux";
+import store from "./redux/store"; // Path to your store
 
 import App from "./App";
 
