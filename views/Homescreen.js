@@ -1,7 +1,52 @@
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const Item = ({ title, item }) => (
+  // <View style={styles.item}>
+  //   <Text style={styles.title}>{title}</Text>
+  // </View>
+  <View style={styles.prodcarddiv}>
+    <TouchableOpacity>
+      <View>
+        <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
+        <Text
+          style={{
+            marginTop: 10,
+          }}
+        >{`$${item?.price}`}</Text>
+        <Text>{item?.title}</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
 
 const Homescreen = () => {
+  const [productdata, setProductdata] = useState();
+  useEffect(() => {
+    axios
+      // .get("https://dummyjson.com/products")
+      .get("https://dummyjson.com/products")
+      .then((res) => {
+        // console.log("data", res?.data?.products);
+        setProductdata(res?.data?.products);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  const renderItem = ({ item }) => <Item title={item.title} item={item} />;
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -34,22 +79,61 @@ const Homescreen = () => {
           </View>
         </View>
         <View style={styles.container3}>
-          <ScrollView horizontal={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View
               style={{
-                backgroundColor: "blue",
+                width: 270,
               }}
             >
-              <Text>Child 1</Text>
+              <TouchableOpacity>
+                <Image
+                  source={require("./assets/cardnew1.png")}
+                  // style={{ width: "100%", height: 250 }}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </TouchableOpacity>
+              {/* <Text>Child 1</Text> */}
             </View>
 
             <View
               style={{
-                backgroundColor: "blue",
+                width: 270,
               }}
             >
-              <Text>Child 1</Text>
+              <TouchableOpacity>
+                <Image
+                  source={require("./assets/cardnew2.png")}
+                  // style={{ width: "100%", height: 250 }}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </TouchableOpacity>
+              {/* <Text>Child 1</Text> */}
             </View>
+          </ScrollView>
+        </View>
+
+        <View style={styles.container4}>
+          <Text style={styles.recommendedheader}>Recommended</Text>
+          <ScrollView
+            style={{
+              paddingTop: 10,
+            }}
+          >
+            <FlatList
+              numColumns={2}
+              data={productdata && productdata}
+              // horizontal={true}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
           </ScrollView>
         </View>
       </ScrollView>
@@ -75,15 +159,45 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 270,
   },
+  prodcarddiv: {
+    backgroundColor: "#F8F9FB",
+    width: "47%",
+    height: "max-content",
+    margin: 6,
+    padding: 12,
+    borderRadius: 12,
+    // boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+
+    elevation: 5,
+    shadowColor: "black", // marginBottom: 10,
+  },
+
   container3: {
     // flex: 1,
     paddingTop: "5%",
     paddingBottom: "5%",
     paddingLeft: "5%",
     paddingRight: "5%",
-    backgroundColor: "pink",
+    backgroundColor: "white",
     width: "100%",
-    height: 200,
+    height: 160,
+  },
+  prodimage: {
+    width: "100%",
+    height: 130,
+    resizeMode: "cover",
+  },
+  container4: {
+    // flex: 1,
+    paddingTop: "3%",
+    paddingBottom: "5%",
+    paddingLeft: "5%",
+    paddingRight: "5%",
+    backgroundColor: "white",
+    width: "100%",
+    height: 350,
+    // flex: 1,
+    // flexDirection: "row",
   },
   nameheading: {
     textAlign: "left",
@@ -121,5 +235,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#F8F9FB",
     textAlign: "right",
+  },
+  recommendedheader: {
+    fontSize: 30,
+  },
+
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
   },
 });

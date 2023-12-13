@@ -33,11 +33,7 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen
-          name="Home"
-          component={Homescreen}
-          // options={{ title: "Silent Hill" }}
-        />
+        <Stack.Screen name="Home" component={Homescreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
