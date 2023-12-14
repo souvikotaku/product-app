@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Homescreen from "./views/Homescreen";
 import Detailscreen from "./views/Detailscreen";
 import Categoryscreen from "./views/Categoryscreen";
+import Favoritescreen from "./views/Favoritescreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -41,11 +42,22 @@ const TabNav = () => {
       />
       <Tab.Screen
         name="Favorite"
-        component={Categoryscreen}
+        component={Favoritescreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="favorite-border" color={color} size={size} />
           ),
+          headerShown: true,
+          headerTitleStyle: {
+            fontSize: 22,
+            lineHeight: 30,
+            color: "white",
+            fontFamily: "Helvetica Neue",
+          },
+          headerStyle: {
+            backgroundColor: "#2A4BA0",
+          },
+          title: "Favorites",
         }}
       />
       <Tab.Screen

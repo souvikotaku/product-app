@@ -10,6 +10,13 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import {
+  productObjectarray,
+  productObject,
+  productObjectarrayremove,
+} from "../redux/dataSlice";
+import { useDispatch } from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -20,9 +27,19 @@ const { width } = Dimensions.get("window");
 // import Carousel from "react-native-snap-carousel";
 
 function Detailscreen({ navigation }) {
+  const dispatch = useDispatch();
+
   const productId = useSelector((state) => state.data.productid);
+  const productArrayredux = useSelector(
+    (state) => state.data.productobjectarray
+  );
+  const productArrayobject = useSelector((state) => state.data.productobject);
+  // console.log("productArrayobject", productArrayobject);
+
+  // console.log("productArrayredux", productArrayredux);
 
   const [productdetails, setProductdetails] = useState();
+  const [favorites, setFavorites] = useState();
 
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
@@ -37,11 +54,36 @@ function Detailscreen({ navigation }) {
       .then((res) => {
         // console.log("data", res?.data);
         setProductdetails(res?.data);
+        dispatch(productObject(res?.data));
+
         // setProductdata(res?.data?.products);
       })
       .catch((err) => {
         console.error(err);
       });
+  }, []);
+
+  const handleIconClickadd = (productobject) => {
+    dispatch(productObjectarray(productobject));
+  };
+
+  const handleIconClickremove = (productobject) => {
+    dispatch(productObjectarrayremove(productobject));
+  };
+
+  useEffect(() => {
+    function itemExistsinfavorite(id) {
+      return productArrayredux.some(function (el) {
+        return el.id === id;
+      });
+    }
+    itemExistsinfavorite(productId);
+    // console.log("itemExistsinfavorite", itemExistsinfavorite(productId));
+    if (itemExistsinfavorite(productId) === true) {
+      setFavorites(true);
+    } else {
+      setFavorites(false);
+    }
   }, []);
 
   return (
@@ -108,6 +150,44 @@ function Detailscreen({ navigation }) {
         </View>
 
         {/* <View style={{ flex: 1}}> */}
+        <View
+          style={{
+            position: "relative",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              // backgroundColor: "#F8F9FB",
+              zIndex: 1,
+              width: 35,
+              height: 35,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 10,
+              position: "absolute",
+              right: 0,
+              marginRight: "6%",
+              // elevation: 5,
+              // shadowColor: "black",
+            }}
+            onPress={() => {
+              // navigation.navigate("Home");
+              setFavorites(!favorites);
+              if (favorites === true) {
+                handleIconClickremove(productArrayobject);
+              } else {
+                handleIconClickadd(productArrayobject);
+              }
+            }}
+          >
+            {favorites === true ? (
+              <Ionicons name="heart-sharp" color={"red"} size={30} />
+            ) : (
+              <Ionicons name="heart-outline" color={"red"} size={30} />
+            )}
+          </TouchableOpacity>
+        </View>
+
         <Carousel
           width={width}
           height={width / 2}

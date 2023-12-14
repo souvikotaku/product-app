@@ -11,17 +11,59 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { productId } from "../redux/dataSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const Homescreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [productdata, setProductdata] = useState();
+  const [favorites, setFavorites] = useState();
+  const [favoritearray, setFavoritearray] = useState();
+  const productArrayredux = useSelector(
+    (state) => state.data.productobjectarray
+  );
   const Item = ({ title, item }) => (
     // <View style={styles.item}>
     //   <Text style={styles.title}>{title}</Text>
     // </View>
     <View style={styles.prodcarddiv}>
+      <View
+        style={{
+          position: "relative",
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            // backgroundColor: "#F8F9FB",
+            pointerEvents: "none",
+            zIndex: 1,
+            width: 20,
+            height: 20,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 10,
+            position: "absolute",
+            left: 0,
+            marginLeft: "2%",
+            marginTop: "2%",
+            // elevation: 5,
+            // shadowColor: "black",
+          }}
+        >
+          {/* {favorites === true ? (
+            <Ionicons name="heart-sharp" color={"red"} size={30} />
+          ) : (
+            <Ionicons name="heart-outline" color={"red"} size={30} />
+          )} */}
+
+          {favoritearray?.some((obj) => obj.id === item.id) ? (
+            <Ionicons name="heart-sharp" color={"#f08080"} size={20} />
+          ) : (
+            <Ionicons name="heart-outline" color={"#f08080"} size={20} />
+          )}
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         onPress={() => {
           dispatch(productId(item?.id));
@@ -55,6 +97,34 @@ const Homescreen = ({ navigation }) => {
   }, []);
 
   const renderItem = ({ item }) => <Item title={item.title} item={item} />;
+
+  useEffect(() => {
+    // function itemExistsinfavorite(id) {
+    //   return productArrayredux.some(function (el) {
+    //     return el.id === id;
+    //   });
+    // }
+    // itemExistsinfavorite(productId);
+    // console.log("itemExistsinfavorite", itemExistsinfavorite(productId));
+    // function itemExistsinfavorite(id) {
+    //   return productArrayredux.some(function (el) {
+    //     return el.id === id;
+    //   });
+    // }
+    const newArrayprod = [];
+    productArrayredux &&
+      productArrayredux?.map((item) => {
+        const filteredObj = productdata?.find((obj) => obj?.id === item?.id);
+
+        // console.log("filteredObj", filteredObj);
+        // newArrayprod.push(filteredArr);
+        if (filteredObj) {
+          newArrayprod.push(filteredObj); // Push each filteredObj into the array
+        }
+      });
+    // console.log("newArrayprod", newArrayprod);
+    setFavoritearray(newArrayprod);
+  }, [productArrayredux]);
 
   return (
     <View style={styles.container}>
@@ -199,7 +269,7 @@ const styles = StyleSheet.create({
   prodimage: {
     width: "100%",
     height: 130,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   container4: {
     // flex: 1,
