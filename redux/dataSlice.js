@@ -3,16 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const dataSlice = createSlice({
   name: "data",
-  initialState: { monstername: "Silent Hill", clickedmonster: false },
+  initialState: { productid: "" },
   reducers: {
-    monsterName: (state, action) => {
-      state.monstername = action.payload;
-    },
-    clickedMonster: (state, action) => {
-      state.clickedmonster = action.payload;
+    productId: (state, action) => {
+      state.productid = action.payload;
     },
   },
 });
 
-export const { monsterName, clickedMonster } = dataSlice.actions;
+export const { productId } = dataSlice.actions;
 export default dataSlice.reducer;

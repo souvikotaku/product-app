@@ -10,8 +10,12 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { productId } from "../redux/dataSlice";
+import { useDispatch } from "react-redux";
 
 const Homescreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [productdata, setProductdata] = useState();
   const Item = ({ title, item }) => (
     // <View style={styles.item}>
@@ -20,6 +24,7 @@ const Homescreen = ({ navigation }) => {
     <View style={styles.prodcarddiv}>
       <TouchableOpacity
         onPress={() => {
+          dispatch(productId(item?.id));
           navigation.navigate("Details", { item });
         }}
       >

@@ -32,7 +32,7 @@ const TabNav = () => {
       />
       <Tab.Screen
         name="Categories"
-        component={Detailscreen}
+        component={Categoryscreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="category" color={color} size={size} />
