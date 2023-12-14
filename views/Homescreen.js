@@ -11,27 +11,31 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Item = ({ title, item }) => (
-  // <View style={styles.item}>
-  //   <Text style={styles.title}>{title}</Text>
-  // </View>
-  <View style={styles.prodcarddiv}>
-    <TouchableOpacity>
-      <View>
-        <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
-        <Text
-          style={{
-            marginTop: 10,
-          }}
-        >{`$${item?.price}`}</Text>
-        <Text>{item?.title}</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
-
-const Homescreen = () => {
+const Homescreen = ({ navigation }) => {
   const [productdata, setProductdata] = useState();
+  const Item = ({ title, item }) => (
+    // <View style={styles.item}>
+    //   <Text style={styles.title}>{title}</Text>
+    // </View>
+    <View style={styles.prodcarddiv}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Details", { item });
+        }}
+      >
+        <View>
+          <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
+          <Text
+            style={{
+              marginTop: 10,
+            }}
+          >{`$${item?.price}`}</Text>
+          <Text>{item?.title}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
   useEffect(() => {
     axios
       // .get("https://dummyjson.com/products")
@@ -122,19 +126,24 @@ const Homescreen = () => {
 
         <View style={styles.container4}>
           <Text style={styles.recommendedheader}>Recommended</Text>
-          <ScrollView
+          {/* <ScrollView
             style={{
               paddingTop: 10,
             }}
-          >
-            <FlatList
-              numColumns={2}
-              data={productdata && productdata}
-              // horizontal={true}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
-          </ScrollView>
+            // showsVerticalScrollIndicator={false}
+          > */}
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            style={{
+              paddingTop: 10,
+            }}
+            numColumns={2}
+            data={productdata && productdata}
+            // horizontal={true}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+          {/* </ScrollView> */}
         </View>
       </ScrollView>
     </View>
@@ -190,12 +199,12 @@ const styles = StyleSheet.create({
   container4: {
     // flex: 1,
     paddingTop: "3%",
-    paddingBottom: "5%",
+    // paddingBottom: "5%",
     paddingLeft: "5%",
     paddingRight: "5%",
     backgroundColor: "white",
     width: "100%",
-    height: 350,
+    height: 360,
     // flex: 1,
     // flexDirection: "row",
   },
