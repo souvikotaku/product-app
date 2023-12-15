@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Homescreen from "./views/Homescreen";
 import Detailscreen from "./views/Detailscreen";
+import Cartscreen from "./views/Cartscreen";
 import Categoryscreen from "./views/Categoryscreen";
 import Favoritescreen from "./views/Favoritescreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -93,6 +94,12 @@ export default function App() {
         <Stack.Screen
           name="Details"
           component={Detailscreen}
+          // options={{ tabBarStyle: { display: "none" } }}
+          // options={{ title: "Silent Hill" }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cartscreen}
           // options={{ tabBarStyle: { display: "none" } }}
           // options={{ title: "Silent Hill" }}
         />

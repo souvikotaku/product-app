@@ -13,8 +13,10 @@ import Carousel from "react-native-reanimated-carousel";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {
   productObjectarray,
+  productObjectarraycart,
   productObject,
   productObjectarrayremove,
+  productObjectarrayremovecart,
 } from "../redux/dataSlice";
 import { useDispatch } from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -33,6 +35,12 @@ function Detailscreen({ navigation }) {
   const productArrayredux = useSelector(
     (state) => state.data.productobjectarray
   );
+
+  const productArrayreduxcart = useSelector(
+    (state) => state.data.productobjectarraycart
+  );
+
+  // console.log("productArrayreduxcart", productArrayreduxcart);
   const productArrayobject = useSelector((state) => state.data.productobject);
   // console.log("productArrayobject", productArrayobject);
 
@@ -40,6 +48,7 @@ function Detailscreen({ navigation }) {
 
   const [productdetails, setProductdetails] = useState();
   const [favorites, setFavorites] = useState();
+  const [incart, setIncart] = useState();
 
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
@@ -67,6 +76,14 @@ function Detailscreen({ navigation }) {
     dispatch(productObjectarray(productobject));
   };
 
+  const handleIconClickaddcart = (productobject) => {
+    const updatedObject = {
+      ...productobject,
+      prices: [productobject.price],
+    };
+    dispatch(productObjectarraycart(updatedObject));
+  };
+
   const handleIconClickremove = (productobject) => {
     dispatch(productObjectarrayremove(productobject));
   };
@@ -84,7 +101,35 @@ function Detailscreen({ navigation }) {
     } else {
       setFavorites(false);
     }
+
+    function itemExistsincart(id) {
+      return productArrayreduxcart.some(function (el) {
+        return el.id === id;
+      });
+    }
+    itemExistsincart(productId);
+    // console.log("itemExistsinfavorite", itemExistsinfavorite(productId));
+    if (itemExistsincart(productId) === true) {
+      setIncart(true);
+    } else {
+      setIncart(false);
+    }
   }, []);
+
+  // useEffect(() => {
+  //   function itemExistsincart(id) {
+  //     return productArrayreduxcart.some(function (el) {
+  //       return el.id === id;
+  //     });
+  //   }
+  //   itemExistsincart(productId);
+  //   // console.log("itemExistsinfavorite", itemExistsinfavorite(productId));
+  //   if (itemExistsincart(productId) === true) {
+  //     setIncart(true);
+  //   } else {
+  //     setIncart(false);
+  //   }
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -229,9 +274,36 @@ function Detailscreen({ navigation }) {
               justifyContent: "space-between",
             }}
           >
-            <TouchableOpacity style={styles.button}>
+            {incart == true ? (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  navigation.navigate("Cart");
+                }}
+              >
+                <Text style={styles.text}>{"Go To Cart"}</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  setIncart(true);
+                  handleIconClickaddcart(productArrayobject);
+                }}
+              >
+                <Text style={styles.text}>{"Add To Cart"}</Text>
+              </TouchableOpacity>
+            )}
+            {/* <TouchableOpacity
+              style={styles.button}
+              onClick={() => {
+                setIncart(!incart);
+
+                handleIconClickaddcart(productArrayobject);
+              }}
+            >
               <Text style={styles.text}>{"Add To Cart"}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.button2}>
               <Text style={styles.text2}>{"Buy Now"}</Text>
             </TouchableOpacity>
