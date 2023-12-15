@@ -108,7 +108,7 @@ function Detailscreen({ navigation }) {
       });
     }
     itemExistsincart(productId);
-    // console.log("itemExistsinfavorite", itemExistsinfavorite(productId));
+    console.log("itemExistsincart", itemExistsincart(productId));
     if (itemExistsincart(productId) === true) {
       setIncart(true);
     } else {

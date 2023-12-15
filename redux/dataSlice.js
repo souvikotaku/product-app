@@ -36,6 +36,12 @@ const dataSlice = createSlice({
         (item) => item.id !== action.payload.id
       );
     },
+    clearArraycart: (state, action) => {
+      state.productobjectarraycart.splice(
+        0,
+        state.productobjectarraycart.length
+      );
+    },
   },
 });
 
@@ -47,5 +53,6 @@ export const {
   productObject,
   productObjectarrayremove,
   productObjectarraycartremove,
+  clearArraycart,
 } = dataSlice.actions;
 export default dataSlice.reducer;

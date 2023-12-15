@@ -19,6 +19,7 @@ import {
   productObject,
   productObjectarrayremove,
   productObjectarrayremovecart,
+  clearArraycart,
 } from "../redux/dataSlice";
 import { useDispatch } from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -43,7 +44,7 @@ function Cartscreen({ navigation }) {
     (state) => state.data.productobjectarraycart
   );
 
-  console.log("productArrayreduxcart", productArrayreduxcart);
+  //   console.log("productArrayreduxcart", productArrayreduxcart);
   const productArrayobject = useSelector((state) => state.data.productobject);
   // console.log("productArrayobject", productArrayobject);
 
@@ -60,119 +61,112 @@ function Cartscreen({ navigation }) {
     //   <Text style={styles.title}>{title}</Text>
     // </View>
     <View style={styles.prodcarddiv}>
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(productId(item?.id));
-          navigation.navigate("Details", { item });
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingTop: 20,
+          paddingBottom: 20,
+          paddingRight: 10,
+          // backgroundColor: "red",
+          borderBottomColor: "#EBEBFB",
+          borderBottomWidth: 1,
+          justifyContent: "space-between",
         }}
       >
         <View
           style={{
-            flex: 1,
+            width: 50,
+          }}
+        >
+          <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
+        </View>
+        <View
+          style={{
+            //   backgroundColor: "yellow",
+            width: "45%",
+          }}
+        >
+          <Text>{item?.title}</Text>
+          <Text
+          //   style={{
+          //     marginTop: 10,
+
+          //   }}
+          >{`$${item?.price}`}</Text>
+        </View>
+        <View
+          style={{
+            //   backgroundColor: "yellow",
             flexDirection: "row",
-            paddingTop: 20,
-            paddingBottom: 20,
-            paddingRight: 10,
-            // backgroundColor: "red",
-            borderBottomColor: "#EBEBFB",
-            borderBottomWidth: 1,
-            justifyContent: "space-between",
+            // marginLeft: "60%",
           }}
         >
           <View
             style={{
-              width: 50,
+              // padding: 5,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#F8F9FB",
+                width: 35,
+                height: 35,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 70,
+                elevation: 5,
+                shadowColor: "black",
+              }}
+              onPress={() => {
+                // navigation.navigate("Details");
+                handleClickremove(item);
+              }}
+            >
+              <Feather name="minus" color={"black"} size={30} />
+            </TouchableOpacity>
           </View>
           <View
             style={{
-              //   backgroundColor: "yellow",
-              width: "45%",
+              padding: 5,
+              paddingLeft: 10,
+              paddingRight: 10,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Text>{item?.title}</Text>
-            <Text
-            //   style={{
-            //     marginTop: 10,
-
-            //   }}
-            >{`$${item?.price}`}</Text>
+            <Text style={{ fontSize: 14 }}>{item?.prices?.length}</Text>
           </View>
           <View
             style={{
-              //   backgroundColor: "yellow",
-              flexDirection: "row",
-              // marginLeft: "60%",
+              // padding: 5,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <View
+            <TouchableOpacity
               style={{
-                // padding: 5,
+                backgroundColor: "#F8F9FB",
+                width: 35,
+                height: 35,
                 alignItems: "center",
                 justifyContent: "center",
+                borderRadius: 70,
+                elevation: 5,
+                shadowColor: "black",
+              }}
+              onPress={() => {
+                // navigation.navigate("Details");
+                handleClickadd(item);
               }}
             >
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#F8F9FB",
-                  width: 35,
-                  height: 35,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 70,
-                  elevation: 5,
-                  shadowColor: "black",
-                }}
-                onPress={() => {
-                  // navigation.navigate("Details");
-                  handleClickremove(item);
-                }}
-              >
-                <Feather name="minus" color={"black"} size={30} />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                padding: 5,
-                paddingLeft: 10,
-                paddingRight: 10,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 14 }}>{item?.prices?.length}</Text>
-            </View>
-            <View
-              style={{
-                // padding: 5,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#F8F9FB",
-                  width: 35,
-                  height: 35,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 70,
-                  elevation: 5,
-                  shadowColor: "black",
-                }}
-                onPress={() => {
-                  // navigation.navigate("Details");
-                  handleClickadd(item);
-                }}
-              >
-                <Feather name="plus" color={"black"} size={30} />
-              </TouchableOpacity>
-            </View>
+              <Feather name="plus" color={"black"} size={30} />
+            </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -200,19 +194,18 @@ function Cartscreen({ navigation }) {
     // const index = newData.findIndex((element) => element === item);
 
     const indexnew = newData.findIndex((el) => el.id === item?.id);
-    console.log("index", indexnew);
-    console.log("item", item);
+    // console.log("index", indexnew);
+    // console.log("item", item);
 
     newData[indexnew].prices?.push(item?.price);
 
     // Update the state with the new data
     setCartData(newData);
-    console.log("newData", newData);
+    // console.log("newData", newData);
 
     // dispatch(productObjectarraycart(item));
     // dispatch(productObjectarraycartadd(newData));
     // setCartData(newData);
-    dispatch(productObjectarraycart(item));
 
     const priceArray = [];
     newData.map((item) => {
@@ -224,7 +217,7 @@ function Cartscreen({ navigation }) {
       priceArray.push(objnew);
     });
 
-    console.log("priceArray", priceArray);
+    // console.log("priceArray", priceArray);
 
     const totalPrice = priceArray.reduce((acc, obj) => {
       const priceSum = obj.prices.reduce((sum, value) => sum + value, 0);
@@ -240,16 +233,13 @@ function Cartscreen({ navigation }) {
     // const index = newData.findIndex((element) => element === item);
 
     const indexnew = newData.findIndex((el) => el.id === item?.id);
-    console.log("index", indexnew);
-    console.log("item", item);
-
+    // console.log("index", indexnew);
+    // console.log("item", item);
     newData[indexnew].prices?.pop();
 
     // Update the state with the new data
     setCartData(newData);
-    console.log("newData", newData);
-
-    dispatch(productObjectarraycart(item));
+    // console.log("newData", newData);
 
     const priceArray = [];
     newData.map((item) => {
@@ -262,11 +252,12 @@ function Cartscreen({ navigation }) {
       priceArray.push(objnew);
     });
 
-    console.log("priceArray", priceArray);
-
-    if (newData[indexnew].prices?.length === 0) {
-      newData.splice(indexnew, 1);
-    }
+    // console.log("priceArray", priceArray);
+    newData?.map((item, index) => {
+      if (item.prices?.length === 0) {
+        newData.splice(index, 1);
+      }
+    });
 
     const totalPrice = priceArray.reduce((acc, obj) => {
       const priceSum = obj.prices.reduce((sum, value) => sum + value, 0);
@@ -274,6 +265,19 @@ function Cartscreen({ navigation }) {
     }, 0);
 
     setPriceTotal(totalPrice);
+    console.log("cartData", cartData);
+
+    // cartData?.map((item)=>{
+    //     if (item?.prices === undefined){
+    //         dispatch(clearArraycart());
+    //     }
+    // })
+
+    // if (cartData?.prices === undefined) {
+    //   //   console.log("cartData", cartData);
+    //   //   dispatch(clearArraycart());
+    //   console.log("removed all");
+    // }
   };
 
   useEffect(() => {
@@ -315,7 +319,7 @@ function Cartscreen({ navigation }) {
       priceArray.push(objnew);
     });
 
-    console.log("priceArray", priceArray);
+    // console.log("priceArray", priceArray);
     // const sumTotal = priceArray?.reduce((acc, obj) => acc + obj?.price, 0);
 
     const totalPrice = priceArray.reduce((acc, obj) => {
