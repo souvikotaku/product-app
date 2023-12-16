@@ -219,159 +219,157 @@ const Homescreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.container2}>
-          <View
+      <View style={styles.container2}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.nameheading}>Hey, Souvik</Text>
+          <TouchableOpacity
             style={{
+              // backgroundColor: "#F8F9FB",
+              width: 35,
+              height: 35,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 70,
               flexDirection: "row",
-              justifyContent: "space-between",
+              // elevation: 5,
+              // shadowColor: "black",
+            }}
+            onPress={() => {
+              navigation.navigate("Cart");
+              dispatch(fromPage("Home"));
             }}
           >
-            <Text style={styles.nameheading}>Hey, Souvik</Text>
-            <TouchableOpacity
-              style={{
-                // backgroundColor: "#F8F9FB",
-                width: 35,
-                height: 35,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 70,
-                flexDirection: "row",
-                // elevation: 5,
-                // shadowColor: "black",
-              }}
-              onPress={() => {
-                navigation.navigate("Cart");
-                dispatch(fromPage("Home"));
-              }}
-            >
-              <SimpleLineIcons name="basket" color={"white"} size={30} />
-              {productArrayreduxcart && productArrayreduxcart?.length > 0 && (
+            <SimpleLineIcons name="basket" color={"white"} size={30} />
+            {productArrayreduxcart && productArrayreduxcart?.length > 0 && (
+              <View
+                style={{
+                  position: "relative",
+                }}
+              >
                 <View
                   style={{
-                    position: "relative",
+                    backgroundColor: "#F9B023",
+                    paddingLeft: 7,
+                    paddingRight: 7,
+                    borderRadius: 70,
+                    position: "absolute",
+                    top: -20,
+                    left: -15,
                   }}
                 >
-                  <View
-                    style={{
-                      backgroundColor: "#F9B023",
-                      paddingLeft: 7,
-                      paddingRight: 7,
-                      borderRadius: 70,
-                      position: "absolute",
-                      top: -20,
-                      left: -15,
-                    }}
-                  >
-                    <Text>
-                      {productArrayreduxcart && productArrayreduxcart?.length}
-                    </Text>
-                  </View>
+                  <Text>
+                    {productArrayreduxcart && productArrayreduxcart?.length}
+                  </Text>
                 </View>
-              )}
-            </TouchableOpacity>
-          </View>
-          {/* <Text style={styles.nameheading}>Hey, Rahul</Text> */}
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholder="Search Products or store"
-              placeholderTextColor="white"
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
+        {/* <Text style={styles.nameheading}>Hey, Rahul</Text> */}
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder="Search Products or store"
+            placeholderTextColor="white"
 
-              // onChangeText={(text) => onChangeText(text)}
-              // value={value}
-            />
-            <Ionicons
-              name="search-outline"
-              color={"white"}
-              size={20}
-              style={{ position: "absolute", left: 10, top: 47 }}
-            />
+            // onChangeText={(text) => onChangeText(text)}
+            // value={value}
+          />
+          <Ionicons
+            name="search-outline"
+            color={"white"}
+            size={20}
+            style={{ position: "absolute", left: 10, top: 47 }}
+          />
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingTop: "6%",
+          }}
+        >
+          <View>
+            <Text style={styles.letterone}>DELIVERY TO</Text>
+            <Text style={styles.lettertwo}>Green Way 3000, Sylhet</Text>
+          </View>
+
+          <View>
+            <Text style={styles.letteroneright}>WITHIN</Text>
+            <Text style={styles.lettertworight}>1 Hour</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.container3}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <View
+            style={{
+              width: 270,
+            }}
+          >
+            <TouchableOpacity>
+              <Image
+                source={require("./assets/cardnew1.png")}
+                // style={{ width: "100%", height: 250 }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </TouchableOpacity>
+            {/* <Text>Child 1</Text> */}
           </View>
 
           <View
             style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              paddingTop: "6%",
+              width: 270,
             }}
           >
-            <View>
-              <Text style={styles.letterone}>DELIVERY TO</Text>
-              <Text style={styles.lettertwo}>Green Way 3000, Sylhet</Text>
-            </View>
-
-            <View>
-              <Text style={styles.letteroneright}>WITHIN</Text>
-              <Text style={styles.lettertworight}>1 Hour</Text>
-            </View>
+            <TouchableOpacity>
+              <Image
+                source={require("./assets/cardnew2.png")}
+                // style={{ width: "100%", height: 250 }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </TouchableOpacity>
+            {/* <Text>Child 1</Text> */}
           </View>
-        </View>
-        <View style={styles.container3}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View
-              style={{
-                width: 270,
-              }}
-            >
-              <TouchableOpacity>
-                <Image
-                  source={require("./assets/cardnew1.png")}
-                  // style={{ width: "100%", height: 250 }}
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </TouchableOpacity>
-              {/* <Text>Child 1</Text> */}
-            </View>
+        </ScrollView>
+      </View>
 
-            <View
-              style={{
-                width: 270,
-              }}
-            >
-              <TouchableOpacity>
-                <Image
-                  source={require("./assets/cardnew2.png")}
-                  // style={{ width: "100%", height: 250 }}
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </TouchableOpacity>
-              {/* <Text>Child 1</Text> */}
-            </View>
-          </ScrollView>
-        </View>
-
-        <View style={styles.container4}>
-          <Text style={styles.recommendedheader}>Recommended</Text>
-          {/* <ScrollView
+      <View style={styles.container4}>
+        <Text style={styles.recommendedheader}>Recommended</Text>
+        {/* <ScrollView
             style={{
               paddingTop: 10,
             }}
             // showsVerticalScrollIndicator={false}
           > */}
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            style={{
-              paddingTop: 10,
-            }}
-            numColumns={2}
-            data={productdata && productdata}
-            // horizontal={true}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          />
-          {/* </ScrollView> */}
-        </View>
-      </ScrollView>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{
+            paddingTop: 10,
+          }}
+          numColumns={2}
+          data={productdata && productdata}
+          // horizontal={true}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+        {/* </ScrollView> */}
+      </View>
       <Toast />
     </View>
   );
