@@ -445,7 +445,7 @@ function Cartscreen({ navigation }) {
             />
           </View>
         </View>
-        {cartData?.length > 0 && (
+        {cartData?.length > 0 ? (
           <View
             style={{
               // backgroundColor: "yellow",
@@ -539,6 +539,24 @@ function Cartscreen({ navigation }) {
               </View>
             </View>
           </View>
+        ) : (
+          <>
+            <Image
+              source={require("./assets/pika.png")}
+              style={styles.prodimage2}
+            />
+            <View>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  marginBottom: 150,
+                }}
+              >
+                Cart Empty
+              </Text>
+            </View>
+          </>
         )}
       </View>
       <Toast />
@@ -571,6 +589,11 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+    resizeMode: "contain",
+  },
+  prodimage2: {
+    width: "100%",
+    height: 250,
     resizeMode: "contain",
   },
   buttonnew: {
