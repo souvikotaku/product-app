@@ -77,7 +77,10 @@ const Categoryscreen = ({ navigation }) => {
         />
       ) : (
         <> */}
-      <Image source={require("./assets/pika.png")} style={styles.prodimage2} />
+      <Image
+        source={require("./assets/squirtle.png")}
+        style={styles.prodimage2}
+      />
       <View>
         <Text
           style={{

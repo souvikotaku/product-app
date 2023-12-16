@@ -12,6 +12,8 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import Toast from "react-native-toast-message";
+
 import {
   productObjectarray,
   productObjectarraycart,
@@ -76,6 +78,11 @@ function Detailscreen({ navigation }) {
 
   const handleIconClickadd = (productobject) => {
     dispatch(productObjectarray(productobject));
+    Toast.show({
+      type: "success",
+      text1: "Added to favorites",
+      // text2: "",
+    });
   };
 
   const handleIconClickaddcart = (productobject) => {
@@ -84,10 +91,20 @@ function Detailscreen({ navigation }) {
       prices: [productobject.price],
     };
     dispatch(productObjectarraycart(updatedObject));
+    Toast.show({
+      type: "success",
+      text1: "Added to cart",
+      // text2: "",
+    });
   };
 
   const handleIconClickremove = (productobject) => {
     dispatch(productObjectarrayremove(productobject));
+    Toast.show({
+      type: "error",
+      text1: "Removed from favorites",
+      // text2: "",
+    });
   };
 
   useEffect(() => {
@@ -373,6 +390,7 @@ function Detailscreen({ navigation }) {
           </View>
         </View>
       </View>
+      <Toast />
     </View>
   );
 }

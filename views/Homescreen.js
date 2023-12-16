@@ -11,6 +11,8 @@ import {
 import React, { useEffect, useState } from "react";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import Toast from "react-native-toast-message";
+
 import axios from "axios";
 import {
   productId,
@@ -41,11 +43,23 @@ const Homescreen = ({ navigation }) => {
         ...productobject,
         prices: [productobject.price],
       };
+
       dispatch(productObjectarraycart(updatedObject));
+      Toast.show({
+        type: "success",
+        text1: "Added to cart",
+        // text2: "",
+      });
     };
 
     const handleIconClickaddfavorites = (productobject) => {
       dispatch(productObjectarray(productobject));
+
+      Toast.show({
+        type: "success",
+        text1: "Added to favorites",
+        // text2: "",
+      });
     };
     return (
       // <View style={styles.item}>
@@ -96,12 +110,12 @@ const Homescreen = ({ navigation }) => {
         >
           <TouchableOpacity
             style={{
-              // backgroundColor: "#F8F9FB",
+              backgroundColor: "transparent",
               pointerEvents:
                 cartarray?.some((obj) => obj.id === item.id) && "none",
               zIndex: 1,
-              width: 20,
-              height: 20,
+              width: 30,
+              height: 30,
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 10,
@@ -358,6 +372,7 @@ const Homescreen = ({ navigation }) => {
           {/* </ScrollView> */}
         </View>
       </ScrollView>
+      <Toast />
     </View>
   );
 };

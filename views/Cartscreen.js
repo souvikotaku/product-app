@@ -23,6 +23,7 @@ import Feather from "react-native-vector-icons/Feather";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Rating, AirbnbRating } from "react-native-ratings";
+import Toast from "react-native-toast-message";
 
 const { width } = Dimensions.get("window");
 
@@ -238,6 +239,7 @@ function Cartscreen({ navigation }) {
     setCartData(newData);
     // console.log("newData", newData);
     dispatch(productObjectarraycartremove(item));
+
     const priceArray = [];
     newData.map((item) => {
       //   dispatch(priceAddedcart(item?.price));
@@ -539,6 +541,7 @@ function Cartscreen({ navigation }) {
           </View>
         )}
       </View>
+      <Toast />
     </View>
   );
 }
