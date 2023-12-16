@@ -219,6 +219,7 @@ const Homescreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* <ScrollView> */}
       <View style={styles.container2}>
         <View
           style={{
@@ -307,69 +308,76 @@ const Homescreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <View style={styles.container3}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          <View
-            style={{
-              width: 270,
-            }}
-          >
-            <TouchableOpacity>
-              <Image
-                source={require("./assets/cardnew1.png")}
-                // style={{ width: "100%", height: 250 }}
+      <ScrollView>
+        <View>
+          <View style={styles.container3}>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View
                 style={{
-                  height: "100%",
-                  width: "100%",
-                  objectFit: "contain",
+                  width: 270,
                 }}
-              />
-            </TouchableOpacity>
-            {/* <Text>Child 1</Text> */}
+              >
+                <TouchableOpacity>
+                  <Image
+                    source={require("./assets/cardnew1.png")}
+                    // style={{ width: "100%", height: 250 }}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </TouchableOpacity>
+                {/* <Text>Child 1</Text> */}
+              </View>
+
+              <View
+                style={{
+                  width: 270,
+                }}
+              >
+                <TouchableOpacity>
+                  <Image
+                    source={require("./assets/cardnew2.png")}
+                    // style={{ width: "100%", height: 250 }}
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </TouchableOpacity>
+                {/* <Text>Child 1</Text> */}
+              </View>
+            </ScrollView>
           </View>
 
-          <View
-            style={{
-              width: 270,
-            }}
-          >
-            <TouchableOpacity>
-              <Image
-                source={require("./assets/cardnew2.png")}
-                // style={{ width: "100%", height: 250 }}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  objectFit: "contain",
-                }}
-              />
-            </TouchableOpacity>
-            {/* <Text>Child 1</Text> */}
-          </View>
-        </ScrollView>
-      </View>
-
-      <View style={styles.container4}>
-        <Text style={styles.recommendedheader}>Recommended</Text>
-        {/* <ScrollView
+          <View style={styles.container4}>
+            <Text style={styles.recommendedheader}>Recommended</Text>
+            {/* <ScrollView
             style={{
               paddingTop: 10,
             }}
             // showsVerticalScrollIndicator={false}
           > */}
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          style={{
-            paddingTop: 10,
-          }}
-          numColumns={2}
-          data={productdata && productdata}
-          // horizontal={true}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-        {/* </ScrollView> */}
-      </View>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              style={{
+                paddingTop: 10,
+              }}
+              numColumns={2}
+              data={productdata && productdata}
+              // horizontal={true}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+            />
+            {/* </ScrollView> */}
+          </View>
+        </View>
+      </ScrollView>
       <Toast />
     </View>
   );
@@ -429,7 +437,7 @@ const styles = StyleSheet.create({
     paddingRight: "5%",
     backgroundColor: "white",
     width: "100%",
-    height: 360,
+    // height: 360,
     // flex: 1,
     // flexDirection: "row",
   },
