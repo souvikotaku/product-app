@@ -5,8 +5,10 @@ import Detailscreen from "./views/Detailscreen";
 import Cartscreen from "./views/Cartscreen";
 import Categoryscreen from "./views/Categoryscreen";
 import Favoritescreen from "./views/Favoritescreen";
+import Morescreen from "./views/Morescreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -15,6 +17,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const TabNav = () => {
   return (
@@ -74,11 +77,22 @@ const TabNav = () => {
       />
       <Tab.Screen
         name="More"
-        component={Categoryscreen}
+        component={Morescreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Entypo name="dots-three-vertical" color={color} size={size} />
           ),
+          headerShown: false,
+          headerTitleStyle: {
+            fontSize: 22,
+            lineHeight: 30,
+            color: "white",
+            fontFamily: "Helvetica Neue",
+          },
+          headerStyle: {
+            backgroundColor: "#2A4BA0",
+          },
+          title: "More",
         }}
       />
     </Tab.Navigator>

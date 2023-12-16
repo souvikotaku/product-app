@@ -73,12 +73,12 @@ const Homescreen = ({ navigation }) => {
         >
           <TouchableOpacity
             style={{
-              // backgroundColor: "#F8F9FB",
+              backgroundColor: "white",
               pointerEvents:
                 favoritearray?.some((obj) => obj.id === item.id) && "none",
               zIndex: 1,
-              width: 20,
-              height: 20,
+              width: 25,
+              height: 25,
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 10,

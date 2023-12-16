@@ -39,10 +39,7 @@ const dataSlice = createSlice({
     },
 
     clearArraycart: (state, action) => {
-      state.productobjectarraycart.splice(
-        0,
-        state.productobjectarraycart.length
-      );
+      state.productobjectarraycart = [];
     },
     fromPage: (state, action) => {
       state.frompage = action.payload;

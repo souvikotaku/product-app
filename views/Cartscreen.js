@@ -12,6 +12,8 @@ import {
 import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Alert } from "react-native";
+
 import {
   productObject,
   productObjectarraycartremove,
@@ -420,7 +422,7 @@ function Cartscreen({ navigation }) {
                   fontSize: 16,
                 }}
               >
-                Shopping Cart
+                {`Shopping Cart (${cartData?.length})`}
               </Text>
             </View>
           </View>
@@ -533,7 +535,28 @@ function Cartscreen({ navigation }) {
                   // justifyContent: "space-between",
                 }}
               >
-                <TouchableOpacity style={styles.button2}>
+                <TouchableOpacity
+                  style={styles.button2}
+                  onPress={() => {
+                    Alert.alert("Thanks ", "for the purchase", [
+                      // {
+                      //   text: "Ask me later",
+                      //   onPress: () => console.log("Ask me later pressed"),
+                      // },
+                      // {
+                      //   text: "Cancel",
+                      //   onPress: () => console.log("Cancel Pressed"),
+                      //   style: "cancel",
+                      // },
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          navigation.navigate("Home");
+                        },
+                      },
+                    ]);
+                  }}
+                >
                   <Text style={styles.text2}>{"Proceed To checkout"}</Text>
                 </TouchableOpacity>
               </View>
