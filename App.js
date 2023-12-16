@@ -39,6 +39,17 @@ const TabNav = () => {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="category" color={color} size={size} />
           ),
+          headerShown: true,
+          headerTitleStyle: {
+            fontSize: 22,
+            lineHeight: 30,
+            color: "white",
+            fontFamily: "Helvetica Neue",
+          },
+          headerStyle: {
+            backgroundColor: "#2A4BA0",
+          },
+          title: "Categories",
         }}
       />
       <Tab.Screen

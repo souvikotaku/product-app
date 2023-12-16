@@ -16,6 +16,7 @@ import {
   productId,
   fromPage,
   productObjectarraycart,
+  productObjectarray,
 } from "../redux/dataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -42,6 +43,10 @@ const Homescreen = ({ navigation }) => {
       };
       dispatch(productObjectarraycart(updatedObject));
     };
+
+    const handleIconClickaddfavorites = (productobject) => {
+      dispatch(productObjectarray(productobject));
+    };
     return (
       // <View style={styles.item}>
       //   <Text style={styles.title}>{title}</Text>
@@ -55,7 +60,8 @@ const Homescreen = ({ navigation }) => {
           <TouchableOpacity
             style={{
               // backgroundColor: "#F8F9FB",
-              pointerEvents: "none",
+              pointerEvents:
+                favoritearray?.some((obj) => obj.id === item.id) && "none",
               zIndex: 1,
               width: 20,
               height: 20,
@@ -68,6 +74,11 @@ const Homescreen = ({ navigation }) => {
               marginTop: "2%",
               // elevation: 5,
               // shadowColor: "black",
+            }}
+            onPress={() => {
+              favoritearray?.some((obj) => obj.id === item.id)
+                ? null
+                : handleIconClickaddfavorites(item);
             }}
           >
             {favoritearray?.some((obj) => obj.id === item.id) ? (
