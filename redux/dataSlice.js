@@ -8,6 +8,7 @@ const dataSlice = createSlice({
     productobjectarray: [],
     productobjectarraycart: [],
     productobject: {},
+    frompage: "",
   },
   reducers: {
     productId: (state, action) => {
@@ -28,19 +29,23 @@ const dataSlice = createSlice({
     productObjectarraycart: (state, action) => {
       state.productobjectarraycart.push(action.payload);
     },
-    productObjectarraycartadd: (state, action) => {
-      state.productobjectarraycart = action.payload;
-    },
     productObjectarraycartremove: (state, action) => {
       state.productobjectarraycart = state.productobjectarraycart.filter(
         (item) => item.id !== action.payload.id
       );
     },
+    productObjectarraycartadd: (state, action) => {
+      state.productobjectarraycart = action.payload;
+    },
+
     clearArraycart: (state, action) => {
       state.productobjectarraycart.splice(
         0,
         state.productobjectarraycart.length
       );
+    },
+    fromPage: (state, action) => {
+      state.frompage = action.payload;
     },
   },
 });
@@ -54,5 +59,6 @@ export const {
   productObjectarrayremove,
   productObjectarraycartremove,
   clearArraycart,
+  fromPage,
 } = dataSlice.actions;
 export default dataSlice.reducer;

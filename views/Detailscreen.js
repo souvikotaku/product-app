@@ -11,12 +11,14 @@ import {
 import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import {
   productObjectarray,
   productObjectarraycart,
   productObject,
   productObjectarrayremove,
   productObjectarrayremovecart,
+  fromPage,
 } from "../redux/dataSlice";
 import { useDispatch } from "react-redux";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -114,7 +116,7 @@ function Detailscreen({ navigation }) {
     } else {
       setIncart(false);
     }
-  }, []);
+  }, [productArrayreduxcart]);
 
   // useEffect(() => {
   //   function itemExistsincart(id) {
@@ -145,6 +147,8 @@ function Detailscreen({ navigation }) {
             paddingLeft: "5%",
             paddingRight: "5%",
             marginTop: "4%",
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
           <TouchableOpacity
@@ -167,6 +171,48 @@ function Detailscreen({ navigation }) {
               color={"black"}
               size={30}
             />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              // backgroundColor: "#F8F9FB",
+              width: 35,
+              height: 35,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 70,
+              flexDirection: "row",
+              // elevation: 5,
+              // shadowColor: "black",
+            }}
+            onPress={() => {
+              dispatch(fromPage("Details"));
+              navigation.navigate("Cart");
+            }}
+          >
+            <SimpleLineIcons name="basket" color={"black"} size={30} />
+            {productArrayreduxcart && productArrayreduxcart?.length > 0 && (
+              <View
+                style={{
+                  position: "relative",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#F9B023",
+                    paddingLeft: 7,
+                    paddingRight: 7,
+                    borderRadius: 70,
+                    position: "absolute",
+                    top: -20,
+                    left: -15,
+                  }}
+                >
+                  <Text>
+                    {productArrayreduxcart && productArrayreduxcart?.length}
+                  </Text>
+                </View>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
         <View
@@ -278,6 +324,7 @@ function Detailscreen({ navigation }) {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
+                  dispatch(fromPage("Details"));
                   navigation.navigate("Cart");
                 }}
               >

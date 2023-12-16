@@ -13,12 +13,8 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-native-reanimated-carousel";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {
-  productObjectarray,
-  productObjectarraycart,
-  productObjectarraycartadd,
   productObject,
-  productObjectarrayremove,
-  productObjectarrayremovecart,
+  productObjectarraycartremove,
   clearArraycart,
 } from "../redux/dataSlice";
 import { useDispatch } from "react-redux";
@@ -36,6 +32,7 @@ function Cartscreen({ navigation }) {
   const dispatch = useDispatch();
 
   const productId = useSelector((state) => state.data.productid);
+  const frompage = useSelector((state) => state.data.frompage);
   const productArrayredux = useSelector(
     (state) => state.data.productobjectarray
   );
@@ -240,7 +237,7 @@ function Cartscreen({ navigation }) {
     // Update the state with the new data
     setCartData(newData);
     // console.log("newData", newData);
-
+    dispatch(productObjectarraycartremove(item));
     const priceArray = [];
     newData.map((item) => {
       //   dispatch(priceAddedcart(item?.price));
@@ -395,7 +392,9 @@ function Cartscreen({ navigation }) {
                   shadowColor: "black",
                 }}
                 onPress={() => {
-                  navigation.navigate("Details");
+                  frompage && frompage === "Home"
+                    ? navigation.navigate("Home")
+                    : navigation.navigate("Details");
                 }}
               >
                 <MaterialIcons
@@ -414,7 +413,13 @@ function Cartscreen({ navigation }) {
                 justifyContent: "center",
               }}
             >
-              <Text>Shopping Cart</Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                }}
+              >
+                Shopping Cart
+              </Text>
             </View>
           </View>
           <View
@@ -452,6 +457,8 @@ function Cartscreen({ navigation }) {
                 backgroundColor: "#F8F9FB",
                 borderTopLeftRadius: 30,
                 borderTopRightRadius: 30,
+                elevation: 5,
+                shadowColor: "black",
               }}
             >
               <View

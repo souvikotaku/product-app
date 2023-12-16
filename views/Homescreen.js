@@ -9,8 +9,14 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import axios from "axios";
-import { productId } from "../redux/dataSlice";
+import {
+  productId,
+  fromPage,
+  productObjectarraycart,
+} from "../redux/dataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -20,68 +26,114 @@ const Homescreen = ({ navigation }) => {
   const [productdata, setProductdata] = useState();
   const [favorites, setFavorites] = useState();
   const [favoritearray, setFavoritearray] = useState();
+  const [cartarray, setCartarray] = useState();
   const productArrayredux = useSelector(
     (state) => state.data.productobjectarray
   );
-  const Item = ({ title, item }) => (
-    // <View style={styles.item}>
-    //   <Text style={styles.title}>{title}</Text>
-    // </View>
-    <View style={styles.prodcarddiv}>
-      <View
-        style={{
-          position: "relative",
-        }}
-      >
-        <TouchableOpacity
+
+  const productArrayreduxcart = useSelector(
+    (state) => state.data.productobjectarraycart
+  );
+  const Item = ({ title, item }) => {
+    const handleIconClickaddcart = (productobject) => {
+      const updatedObject = {
+        ...productobject,
+        prices: [productobject.price],
+      };
+      dispatch(productObjectarraycart(updatedObject));
+    };
+    return (
+      // <View style={styles.item}>
+      //   <Text style={styles.title}>{title}</Text>
+      // </View>
+      <View style={styles.prodcarddiv}>
+        <View
           style={{
-            // backgroundColor: "#F8F9FB",
-            pointerEvents: "none",
-            zIndex: 1,
-            width: 20,
-            height: 20,
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 10,
-            position: "absolute",
-            left: 0,
-            marginLeft: "2%",
-            marginTop: "2%",
-            // elevation: 5,
-            // shadowColor: "black",
+            position: "relative",
           }}
         >
-          {/* {favorites === true ? (
-            <Ionicons name="heart-sharp" color={"red"} size={30} />
-          ) : (
-            <Ionicons name="heart-outline" color={"red"} size={30} />
-          )} */}
+          <TouchableOpacity
+            style={{
+              // backgroundColor: "#F8F9FB",
+              pointerEvents: "none",
+              zIndex: 1,
+              width: 20,
+              height: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 10,
+              position: "absolute",
+              left: 0,
+              marginLeft: "2%",
+              marginTop: "2%",
+              // elevation: 5,
+              // shadowColor: "black",
+            }}
+          >
+            {favoritearray?.some((obj) => obj.id === item.id) ? (
+              <Ionicons name="heart-sharp" color={"#f08080"} size={20} />
+            ) : (
+              <Ionicons name="heart-outline" color={"#f08080"} size={20} />
+            )}
+          </TouchableOpacity>
+        </View>
 
-          {favoritearray?.some((obj) => obj.id === item.id) ? (
-            <Ionicons name="heart-sharp" color={"#f08080"} size={20} />
-          ) : (
-            <Ionicons name="heart-outline" color={"#f08080"} size={20} />
-          )}
+        <View
+          style={{
+            position: "relative",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              // backgroundColor: "#F8F9FB",
+              pointerEvents:
+                cartarray?.some((obj) => obj.id === item.id) && "none",
+              zIndex: 1,
+              width: 20,
+              height: 20,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 10,
+              position: "absolute",
+              right: 0,
+              top: 120,
+              marginLeft: "2%",
+              marginTop: "2%",
+              // elevation: 5,
+              // shadowColor: "black",
+            }}
+            onPress={() => {
+              cartarray?.some((obj) => obj.id === item.id)
+                ? null
+                : handleIconClickaddcart(item);
+            }}
+          >
+            {cartarray?.some((obj) => obj.id === item.id) ? (
+              <AntDesign name="pluscircle" color={"#2A4BA0"} size={20} />
+            ) : (
+              <AntDesign name="pluscircleo" color={"#2A4BA0"} size={20} />
+            )}
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(productId(item?.id));
+            navigation.navigate("Details", { item });
+          }}
+        >
+          <View>
+            <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >{`$${item?.price}`}</Text>
+            <Text>{item?.title}</Text>
+          </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(productId(item?.id));
-          navigation.navigate("Details", { item });
-        }}
-      >
-        <View>
-          <Image source={{ uri: item?.thumbnail }} style={styles.prodimage} />
-          <Text
-            style={{
-              marginTop: 10,
-            }}
-          >{`$${item?.price}`}</Text>
-          <Text>{item?.title}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   useEffect(() => {
     axios
@@ -124,20 +176,94 @@ const Homescreen = ({ navigation }) => {
       });
     // console.log("newArrayprod", newArrayprod);
     setFavoritearray(newArrayprod);
-  }, [productArrayredux]);
+
+    const newArrayprodcart = [];
+    productArrayreduxcart &&
+      productArrayreduxcart?.map((item) => {
+        const filteredObj = productdata?.find((obj) => obj?.id === item?.id);
+
+        // console.log("filteredObj", filteredObj);
+        // newArrayprod.push(filteredArr);
+        if (filteredObj) {
+          newArrayprodcart.push(filteredObj); // Push each filteredObj into the array
+        }
+      });
+
+    setCartarray(newArrayprodcart);
+  }, [productArrayredux, productArrayreduxcart]);
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.container2}>
-          <Text style={styles.nameheading}>Hey, Rahul</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Search Products or store"
-            placeholderTextColor="white"
-            // onChangeText={(text) => onChangeText(text)}
-            // value={value}
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.nameheading}>Hey, Souvik</Text>
+            <TouchableOpacity
+              style={{
+                // backgroundColor: "#F8F9FB",
+                width: 35,
+                height: 35,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 70,
+                flexDirection: "row",
+                // elevation: 5,
+                // shadowColor: "black",
+              }}
+              onPress={() => {
+                navigation.navigate("Cart");
+                dispatch(fromPage("Home"));
+              }}
+            >
+              <SimpleLineIcons name="basket" color={"white"} size={30} />
+              {productArrayreduxcart && productArrayreduxcart?.length > 0 && (
+                <View
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "#F9B023",
+                      paddingLeft: 7,
+                      paddingRight: 7,
+                      borderRadius: 70,
+                      position: "absolute",
+                      top: -20,
+                      left: -15,
+                    }}
+                  >
+                    <Text>
+                      {productArrayreduxcart && productArrayreduxcart?.length}
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+          {/* <Text style={styles.nameheading}>Hey, Rahul</Text> */}
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Search Products or store"
+              placeholderTextColor="white"
+
+              // onChangeText={(text) => onChangeText(text)}
+              // value={value}
+            />
+            <Ionicons
+              name="search-outline"
+              color={"white"}
+              size={20}
+              style={{ position: "absolute", left: 10, top: 47 }}
+            />
+          </View>
+
           <View
             style={{
               flex: 1,
@@ -295,6 +421,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: "#153075",
     marginTop: 30,
+    paddingLeft: 40,
     borderRadius: 28,
     height: 56,
     padding: 20,
