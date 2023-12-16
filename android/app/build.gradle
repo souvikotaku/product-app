@@ -81,7 +81,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.productapp"
+    namespace "com.souvikpunk.productapp"
     defaultConfig {
         applicationId 'com.souvikpunk.productapp'
         minSdkVersion rootProject.ext.minSdkVersion
